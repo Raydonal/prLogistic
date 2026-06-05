@@ -1,0 +1,87 @@
+url: https://raydonal.github.io/prLogistic/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#2C6E8A"
+    headings-font-weight: 600
+
+home:
+  title: "prLogistic — Prevalence Ratios via Logistic Regression"
+  description: >
+    Estimate adjusted prevalence ratios and confidence intervals from
+    logistic regression models. Supports independent, clustered,
+    longitudinal (GEE), and complex survey data.
+
+  links:
+    - text: "CRAN package"
+      href: https://cran.r-project.org/package=prLogistic
+    - text: "Report a bug"
+      href: https://github.com/Raydonal/prLogistic/issues
+    - text: "Published article (2021)"
+      href: https://doi.org/10.1590/0001-3765202120190316
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, changelog]
+    right: [search, github]
+
+  components:
+    intro:
+      text: "Get started"
+      href: articles/prLogistic-intro.html
+    reference:
+      text: "Reference"
+      href: reference/index.html
+    articles:
+      text: "Articles"
+      menu:
+        - text: "Introduction & worked examples"
+          href: articles/prLogistic-intro.html
+    changelog:
+      text: "Changelog"
+      href: news/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/Raydonal/prLogistic
+      aria-label: GitHub
+
+reference:
+  - title: "Main functions"
+    desc: "Estimate prevalence ratios and confidence intervals"
+    contents:
+      - prLogisticDelta
+      - prLogisticBootCond
+      - prLogisticBootMarg
+
+  - title: "Specialised wrappers"
+    desc: "Wrappers for longitudinal and survey data"
+    contents:
+      - prLogisticGEE
+      - prLogisticSurvey
+
+  - title: "S3 methods"
+    desc: "Methods for `prLogistic` objects"
+    contents:
+      - print.prLogistic
+      - summary.prLogistic
+      - coef.prLogistic
+      - confint.prLogistic
+      - plot.prLogistic
+
+  - title: "Datasets"
+    desc: "Example datasets used in the documentation and vignettes"
+    contents:
+      - LBW
+      - Thailand
+      - Toenail
+      - UIS
+      - downer
+      - titanic
+
+authors:
+  "Leila D. Amorim":
+    href: https://orcid.org/0000-0002-1112-2332
+  "Raydonal Ospina":
+    href: https://orcid.org/0000-0002-9884-9090

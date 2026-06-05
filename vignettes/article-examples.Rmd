@@ -1,0 +1,327 @@
+---
+title: "Reproducing the Examples from Amorim & Ospina (2021)"
+author: "Leila D. Amorim & Raydonal Ospina"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{Reproducing the Examples from Amorim & Ospina (2021)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4)
+library(prLogistic)
+```
+
+This vignette reproduces the numerical examples from:
+
+> Amorim, L. D. & Ospina, R. (2021). Prevalence ratio estimation using R.
+> *Anais da Academia Brasileira de Ciências*, **93**(4), e20190316.
+> doi: [10.1590/0001-3765202120190316](https://doi.org/10.1590/0001-3765202120190316)
+
+Each section corresponds to one of the datasets used in the paper.
+
+---
+
+## Example 1 — Low Birth Weight (LBW): clustered binary data
+
+### Data
+
+244 mothers followed during two pregnancies in Salvador, Brazil. Outcome:
+low birth weight (< 2500 g). Clustering: two births per mother.
+
+```{r lbw-data}
+data(LBW)
+cat("n obs =", nrow(LBW), "| mothers =", length(unique(LBW$ID)), "\n")
+cat("Prevalence of low birth weight:", round(mean(LBW$low == "Low"), 3), "\n\n")
+table(LBW$low, LBW$smoke)
+```
+
+### Independent GLM (ignoring clustering)
+
+```{r lbw-glm}
+LBW$low_bin   <- as.integer(LBW$low   == "Low")
+LBW$smoke_bin <- as.integer(LBW$smoke == "Yes")
+LBW$race_bin  <- as.integer(LBW$race  == "Non-white")
+
+fit_lbw_glm <- glm(low_bin ~ smoke_bin + race_bin + age,
+                   family = binomial, data = LBW)
+
+cat("--- Conditional PR (GLM) ---\n")
+prLogisticDelta(fit_lbw_glm, standardisation = "conditional")
+```
+
+```{r lbw-glm-marg}
+cat("--- Marginal PR (GLM) ---\n")
+prLogisticDelta(fit_lbw_glm, standardisation = "marginal")
+```
+
+### GEE — accounting for within-mother correlation
+
+```{r lbw-gee, eval=requireNamespace("geepack", quietly=TRUE)}
+library(geepack)
+fit_lbw_gee <- geeglm(low_bin ~ smoke_bin + race_bin + age,
+                      family = binomial, id = ID,
+                      corstr = "exchangeable", data = LBW)
+cat("--- Marginal PR (GEE, exchangeable) ---\n")
+prLogisticGEE(fit_lbw_gee)
+```
+
+### Mixed model (random intercept per mother)
+
+```{r lbw-glmer, eval=requireNamespace("lme4", quietly=TRUE)}
+library(lme4)
+fit_lbw_ml <- glmer(low_bin ~ smoke_bin + race_bin + age + (1 | ID),
+                    family = binomial, data = LBW)
+cat("--- Marginal PR (glmer) ---\n")
+prLogisticDelta(fit_lbw_ml, standardisation = "marginal")
+```
+
+---
+
+## Example 2 — Thailand Education Study: multilevel data
+
+### Data
+
+8582 students in 411 schools. Outcome: grade repetition (`rgi`).
+
+```{r thai-data}
+data(Thailand)
+cat("n =", nrow(Thailand), "| schools =", length(unique(Thailand$schoolid)), "\n")
+cat("Prevalence of grade repetition:", round(mean(Thailand$rgi == "Yes"), 3), "\n\n")
+table(Thailand$rgi, Thailand$sex)
+```
+
+### Independent GLM
+
+```{r thai-glm}
+Thailand$rgi_bin  <- as.integer(Thailand$rgi  == "Yes")
+Thailand$sex_bin  <- as.integer(Thailand$sex  == "Boy")
+Thailand$pped_bin <- as.integer(Thailand$pped == "Yes")
+
+fit_thai_glm <- glm(rgi_bin ~ sex_bin + pped_bin,
+                    family = binomial, data = Thailand)
+
+cat("--- Conditional PR (GLM) ---\n")
+prLogisticDelta(fit_thai_glm, standardisation = "conditional")
+```
+
+### Mixed model
+
+```{r thai-glmer, eval=requireNamespace("lme4", quietly=TRUE)}
+fit_thai_ml <- glmer(rgi_bin ~ sex_bin + pped_bin + (1 | schoolid),
+                     family = binomial, data = Thailand)
+cat("--- Marginal PR (glmer) ---\n")
+prLogisticDelta(fit_thai_ml, standardisation = "marginal")
+```
+
+---
+
+## Example 3 — Toenail Infection Trial: longitudinal data
+
+### Data
+
+294 patients measured at up to 7 visits. Outcome: moderate/severe nail
+separation.
+
+```{r toenail-data}
+data(Toenail)
+cat("n obs =", nrow(Toenail), "| patients =", length(unique(Toenail$ID)), "\n")
+Toenail$resp_bin <- as.integer(Toenail$Response == "Moderate/severe")
+Toenail$trt_bin  <- as.integer(Toenail$Treatment == "Terbinafine")
+cat("Overall prevalence:", round(mean(Toenail$resp_bin), 3), "\n")
+```
+
+### GEE
+
+```{r toenail-gee, eval=requireNamespace("geepack", quietly=TRUE)}
+fit_toe_gee <- geeglm(resp_bin ~ trt_bin + Month,
+                      family = binomial, id = ID,
+                      corstr = "exchangeable", data = Toenail)
+cat("--- Marginal PR (GEE) ---\n")
+prLogisticGEE(fit_toe_gee)
+```
+
+---
+
+## Example 4 — UIS Drug Treatment Study
+
+### Data
+
+575 patients in a drug rehabilitation study. Outcome: drug-free at 6 months.
+
+```{r uis-data}
+data(UIS)
+cat("n =", nrow(UIS), "\n")
+cat("Prevalence drug-free:", round(mean(UIS$drugFree == "Yes"), 3), "\n\n")
+table(UIS$drugFree, UIS$trt)
+```
+
+### GLM — independent observations
+
+```{r uis-glm}
+UIS$drugFree_bin <- as.integer(UIS$drugFree == "Yes")
+
+fit_uis <- glm(drugFree_bin ~ trt + Age + DrugUse + race + site,
+               family = binomial, data = UIS)
+
+cat("--- Conditional PR ---\n")
+res_uis_cond <- prLogisticDelta(fit_uis, standardisation = "conditional")
+print(res_uis_cond)
+
+cat("\n--- Marginal PR ---\n")
+res_uis_marg <- prLogisticDelta(fit_uis, standardisation = "marginal")
+print(res_uis_marg)
+```
+
+### OR vs PR comparison
+
+```{r uis-or-pr}
+OR <- exp(coef(fit_uis)[-1])
+PR_cond <- coef(res_uis_cond)
+PR_marg <- coef(res_uis_marg)
+
+comp <- data.frame(
+  OR        = round(OR, 3),
+  PR_cond   = round(PR_cond, 3),
+  PR_marg   = round(PR_marg, 3)
+)
+print(comp)
+```
+
+### Bootstrap CIs
+
+```{r uis-boot, cache=TRUE}
+set.seed(2024)
+res_boot <- prLogisticBootCond(fit_uis, data = UIS, R = 499)
+print(res_boot)
+```
+
+---
+
+## Example 5 — Downer Cow Survival
+
+### Data
+
+216 downer cattle. Outcome: survival to discharge.
+
+```{r downer-data}
+data(downer)
+cat("n =", nrow(downer), "\n")
+cat("Survival prevalence:", round(mean(downer$Survival == "Survived"), 3), "\n\n")
+table(downer$Survival, downer$Myopathy)
+```
+
+### GLM
+
+```{r downer-glm}
+downer$surv_bin <- as.integer(downer$Survival == "Survived")
+
+fit_downer <- glm(surv_bin ~ Myopathy + AST + CK + Calving,
+                  family = binomial, data = downer)
+
+cat("--- Conditional PR ---\n")
+prLogisticDelta(fit_downer, standardisation = "conditional")
+```
+
+---
+
+## Example 6 — Titanic Survival
+
+### Data
+
+1307 passengers. Outcome: survival. Overall survival rate ≈ 38%.
+
+```{r titanic-data}
+data(titanic)
+cat("n =", nrow(titanic), "\n")
+cat("Survival rate:", round(mean(titanic$survived == "Yes"), 3), "\n\n")
+table(titanic$survived, titanic$sex)
+```
+
+### GLM — OR vs PR
+
+```{r titanic-glm}
+titanic$surv_bin <- as.integer(titanic$survived == "Yes")
+
+fit_titanic <- glm(surv_bin ~ sex + pclass,
+                   family = binomial, data = titanic)
+
+# Odds Ratios (what logistic gives directly)
+cat("--- Odds Ratios ---\n")
+print(round(exp(cbind(OR = coef(fit_titanic), confint.default(fit_titanic))), 3))
+
+cat("\n--- Conditional Prevalence Ratios ---\n")
+res_tit <- prLogisticDelta(fit_titanic, standardisation = "conditional")
+print(res_tit)
+
+cat("\n--- Marginal Prevalence Ratios ---\n")
+prLogisticDelta(fit_titanic, standardisation = "marginal")
+```
+
+### Forest plot
+
+```{r titanic-plot, fig.cap="Forest plot: conditional PR for Titanic survival"}
+plot(res_tit, main = "Titanic: Conditional Prevalence Ratios (95% CI)")
+```
+
+### Key comparison for Titanic
+
+```{r titanic-comparison}
+OR_sex <- exp(coef(fit_titanic)["sexMale"])
+PR_sex <- coef(res_tit)["sexMale"]
+
+cat(sprintf(
+  "Being male:\n  OR = %.2f (%.0f%% overestimate over PR)\n  PR = %.2f\n",
+  OR_sex,
+  (OR_sex / PR_sex - 1) * 100,
+  PR_sex
+))
+```
+
+---
+
+## Summary
+
+The table below shows that OR consistently overstates PR when prevalence
+is above ~10%:
+
+```{r summary-table}
+results <- data.frame(
+  Dataset    = c("LBW (GLM)", "Thailand (GLM)", "UIS", "downer", "Titanic"),
+  Prevalence = c(0.18, 0.16, 0.43, 0.50, 0.38),
+  Predictor  = c("smoke", "sex (Boy)", "trt (Long)", "Myopathy (Yes)", "sex (Male)"),
+  OR         = c(
+    round(exp(coef(fit_lbw_glm)["smoke_bin"]), 2),
+    round(exp(coef(fit_thai_glm)["sex_bin"]), 2),
+    round(exp(coef(fit_uis)["trtLong"]), 2),
+    round(exp(coef(fit_downer)["MyopathyYes"]), 2),
+    round(exp(coef(fit_titanic)["sexMale"]), 2)
+  ),
+  PR_cond = c(
+    round(coef(prLogisticDelta(fit_lbw_glm))["smoke_bin"], 2),
+    round(coef(prLogisticDelta(fit_thai_glm))["sex_bin"], 2),
+    round(coef(res_uis_cond)["trtLong"], 2),
+    round(coef(prLogisticDelta(fit_downer))["MyopathyYes"], 2),
+    round(coef(res_tit)["sexMale"], 2)
+  )
+)
+results$OR_over_PR <- round(results$OR / results$PR_cond, 2)
+print(results)
+```
+
+As prevalence increases, the ratio OR/PR grows — confirming that OR is
+a poor proxy for PR in common-outcome studies.
+
+---
+
+## Session information
+
+```{r session}
+sessionInfo()
+```

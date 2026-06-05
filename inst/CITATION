@@ -1,0 +1,40 @@
+## Citation information for the prLogistic package.
+## Two references: (1) the software itself, (2) the methodological article.
+
+citHeader("To cite the 'prLogistic' package in publications, please use:")
+
+## --- Year / version are read from the installed DESCRIPTION metadata ---
+year <- sub("-.*", "", meta$Date)
+if (length(year) == 0L || is.na(year) || !nzchar(year))
+  year <- format(Sys.Date(), "%Y")
+vers <- meta$Version
+if (is.null(vers)) vers <- "2.0.0"
+
+## --- (1) The software ---
+bibentry(
+  bibtype = "Manual",
+  title   = "{prLogistic}: Estimation of Prevalence Ratios via Logistic Regression Models",
+  author  = c(
+    person("Raydonal", "Ospina"),
+    person("Leila D.", "Amorim")
+  ),
+  year    = year,
+  note    = paste("R package version", vers),
+  url     = "https://github.com/Raydonal/prLogistic"
+)
+
+## --- (2) The methodological article ---
+bibentry(
+  bibtype = "Article",
+  title   = "Prevalence ratio estimation using {R}",
+  author  = c(
+    person("Leila D.", "Amorim"),
+    person("Raydonal", "Ospina")
+  ),
+  journal = "Anais da Academia Brasileira de Ci\u00eancias",
+  year    = "2021",
+  volume  = "93",
+  number  = "4",
+  pages   = "e20190316",
+  doi     = "10.1590/0001-3765202120190316"
+)

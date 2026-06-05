@@ -1,0 +1,289 @@
+---
+title: "Estimating Prevalence Ratios with prLogistic"
+author: "Leila D. Amorim & Raydonal Ospina"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Estimating Prevalence Ratios with prLogistic}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse  = TRUE,
+  comment   = "#>",
+  fig.width = 7,
+  fig.height = 4.5
+)
+library(prLogistic)
+```
+
+# Introduction
+
+In cross-sectional epidemiological studies, the prevalence ratio (PR) is often
+the measure of association of interest. When logistic regression is used to
+adjust for confounders, the model directly yields odds ratios (OR), not PRs.
+Although OR approximates PR when the outcome is rare (< 10%), the approximation
+breaks down for common outcomes and can substantially overestimate the strength
+of the association [@Zhang1998].
+
+The **prLogistic** package estimates adjusted PRs — and their confidence
+intervals — directly from logistic regression models, using two standardisation
+procedures [@Wilcosky1985; @Amorim2021]:
+
+- **Conditional standardisation**: PR at fixed covariate values (reference
+  profile).
+- **Marginal standardisation**: population-averaged PR over the observed
+  covariate distribution.
+
+Both procedures support four model types:
+
+| Function              | Model class  | Package   | Use case                     |
+|-----------------------|-------------|-----------|------------------------------|
+| `prLogisticDelta()`   | `glm`        | stats     | Independent observations     |
+| `prLogisticDelta()`   | `glmerMod`   | lme4      | Clustered / multilevel data  |
+| `prLogisticGEE()`     | `geeglm`     | geepack   | Longitudinal / GEE           |
+| `prLogisticSurvey()`  | `svyglm`     | survey    | Complex survey designs       |
+
+---
+
+# Installation
+
+```r
+# CRAN (stable)
+install.packages("prLogistic")
+
+# Development version (GitHub)
+# install.packages("remotes")
+remotes::install_github("Raydonal/prLogistic")
+```
+
+---
+
+# Independent observations — `glm`
+
+## Data
+
+We use the `birthwt` dataset from the **MASS** package, a retrospective study
+of risk factors for low birth weight (n = 189).
+
+```{r data}
+data(birthwt, package = "MASS")
+
+# Recode predictors
+birthwt$smoke <- factor(birthwt$smoke, labels = c("Non-smoker", "Smoker"))
+birthwt$race  <- factor(birthwt$race,
+                        labels = c("White", "Black", "Other"))
+birthwt$ht    <- factor(birthwt$ht,   labels = c("No", "Yes"))
+birthwt$ui    <- factor(birthwt$ui,   labels = c("No", "Yes"))
+
+# Outcome prevalence
+mean(birthwt$low)   # 31 % — common outcome, OR is a poor approximation
+```
+
+## Fitting the model
+
+```{r glm-fit}
+fit_glm <- glm(low ~ smoke + race + age + lwt + ht + ui,
+               family = binomial, data = birthwt)
+```
+
+## Delta method — conditional standardisation
+
+Reference profile: binary predictors at 0 (reference category), continuous
+predictors (`age`, `lwt`) at their sample medians.
+
+```{r delta-cond}
+res_cond <- prLogisticDelta(fit_glm, standardisation = "conditional")
+res_cond
+```
+
+## Delta method — marginal standardisation
+
+```{r delta-marg}
+res_marg <- prLogisticDelta(fit_glm, standardisation = "marginal")
+res_marg
+```
+
+## Custom reference values
+
+Use `ref_values` to fix continuous predictors at clinically meaningful
+values (e.g., a 25-year-old woman weighing 55 kg):
+
+```{r ref-values}
+prLogisticDelta(fit_glm,
+                standardisation = "conditional",
+                ref_values      = list(age = 25, lwt = 55))
+```
+
+## Forest plot
+
+```{r forest-plot, fig.cap = "Forest plot: conditional PR estimates with 95% CI"}
+plot(res_cond, main = "Prevalence Ratios — conditional (birthwt)")
+```
+
+## Bootstrap confidence intervals
+
+Bootstrap is recommended as a sensitivity check, especially with small samples.
+
+```{r bootstrap, cache = TRUE}
+set.seed(2024)
+res_boot_c <- prLogisticBootCond(fit_glm, data = birthwt, R = 999)
+res_boot_c
+```
+
+Extract a specific CI type:
+
+```{r confint-boot}
+# Percentile intervals
+confint(res_boot_c, type = "percentile")
+```
+
+---
+
+# Clustered / multilevel data — `glmer` (lme4)
+
+```{r glmer, eval = requireNamespace("lme4", quietly = TRUE)}
+library(lme4)
+
+# Treat race as a clustering variable (illustrative)
+fit_glmer <- glmer(low ~ smoke + age + lwt + ht + (1 | race),
+                   family = binomial, data = birthwt)
+
+prLogisticDelta(fit_glmer, standardisation = "marginal")
+```
+
+The random effect `(1 | race)` accounts for unobserved between-group
+heterogeneity. Fixed-effect coefficients — and hence PRs — are conditional
+on the random effects.
+
+---
+
+# Longitudinal data — GEE via `geepack`
+
+GEE models yield **population-averaged** estimates and naturally accommodate
+within-subject correlation. The `prLogisticGEE()` wrapper sets `marginal` as
+the default standardisation.
+
+```{r gee, eval = requireNamespace("geepack", quietly = TRUE)}
+library(geepack)
+data(ohio, package = "geepack")
+
+# Respiratory symptoms in children (4 repeated measures per child)
+fit_gee <- geeglm(resp ~ smoke + age,
+                  family = binomial,
+                  id     = id,
+                  corstr = "exchangeable",
+                  data   = ohio)
+
+prLogisticGEE(fit_gee)
+```
+
+The robust sandwich variance from `vcov(fit_gee)` is used automatically,
+providing valid inference even if the working correlation structure is
+misspecified.
+
+---
+
+# Complex survey data — `svyglm` (survey)
+
+```{r survey, eval = requireNamespace("survey", quietly = TRUE)}
+library(survey)
+data(api, package = "survey")
+
+apiclus2$target_met <- as.numeric(apiclus2$sch.wide == "Yes")
+
+# Two-stage cluster sample
+dclus2 <- svydesign(id   = ~dnum + snum,
+                    fpc  = ~fpc1 + fpc2,
+                    data = apiclus2)
+
+fit_svy <- svyglm(target_met ~ meals + stype,
+                  design = dclus2,
+                  family = quasibinomial)
+
+prLogisticSurvey(fit_svy, standardisation = "conditional")
+```
+
+Design-consistent (sandwich) standard errors are incorporated automatically
+through the `vcov()` method for `svyglm` objects.
+
+---
+
+# Comparing OR and PR
+
+The odds ratio overestimates PR when the outcome is common. The table below
+illustrates this for the smoking predictor in the `birthwt` example:
+
+```{r or-vs-pr}
+OR  <- exp(coef(fit_glm)["smokeSmoker"])
+PR  <- coef(res_cond)["smokeSmoker"]
+
+data.frame(
+  Measure  = c("Odds Ratio (logistic)", "Prevalence Ratio (conditional)",
+               "Prevalence Ratio (marginal)"),
+  Estimate = round(c(OR, PR, coef(res_marg)["smokeSmoker"]), 3)
+)
+```
+
+With a 31% baseline prevalence the OR (`r round(OR, 2)`) substantially
+overstates the PR (`r round(PR, 2)`).
+
+---
+
+# Methodological notes
+
+## Conditional standardisation
+
+For predictor $X_j$ (binary), the adjusted PR is:
+
+$$
+\widehat{PR}_j =
+\frac{\operatorname{expit}(\hat\beta_0 + \hat\beta_j +
+      \sum_{k \neq j} \hat\beta_k r_k)}
+     {\operatorname{expit}(\hat\beta_0 +
+      \sum_{k \neq j} \hat\beta_k r_k)}
+$$
+
+where $r_k$ is the reference value of covariate $k$ (0 for binary/dummy
+predictors; sample median or mean for continuous predictors).
+
+## Marginal standardisation
+
+$$
+\widehat{PR}_j =
+\frac{n^{-1}\sum_i \operatorname{expit}(\hat\eta_i^{(1)})}
+     {n^{-1}\sum_i \operatorname{expit}(\hat\eta_i^{(0)})}
+$$
+
+where $\hat\eta_i^{(1)}$ and $\hat\eta_i^{(0)}$ are the linear predictors
+with $X_{ij}$ set to 1 and 0, respectively.
+
+## Delta method
+
+Confidence intervals use the first-order Taylor (delta method) approximation
+[@Oliveira1997]:
+
+$$
+\widehat{\operatorname{Var}}[\log(\widehat{PR})] \approx
+\mathbf{x}^*{}' \hat\Sigma \, \mathbf{x}^*
+$$
+
+where $\mathbf{x}^* = (1-\hat p_1)\mathbf{x}_1 - (1-\hat p_0)\mathbf{x}_0$
+and $\hat\Sigma$ is the estimated covariance matrix of $\hat{\boldsymbol\beta}$.
+
+---
+
+# Session information
+
+```{r session}
+sessionInfo()
+```
+
+# References
