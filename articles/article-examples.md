@@ -612,9 +612,9 @@ sessionInfo()
 #> [21] tibble_3.3.1      nloptr_2.2.1      desc_1.4.3        minqa_1.2.8      
 #> [25] bslib_0.11.0      pillar_1.11.1     rlang_1.2.0       cachem_1.1.0     
 #> [29] broom_1.0.13      xfun_0.58         fs_2.1.0          sass_0.4.10      
-#> [33] cli_3.6.6         pkgdown_2.2.0     magrittr_2.0.5    Rdpack_2.6.6     
-#> [37] digest_0.6.39     grid_4.6.0        nlme_3.1-169      lifecycle_1.0.5  
-#> [41] reformulas_0.4.4  vctrs_0.7.3       evaluate_1.0.5    glue_1.8.1       
-#> [45] codetools_0.2-20  ragg_1.5.2        rmarkdown_2.31    purrr_1.2.2      
-#> [49] tools_4.6.0       pkgconfig_2.0.3   htmltools_0.5.9
+#> [33] otel_0.2.0        cli_3.6.6         pkgdown_2.2.0     magrittr_2.0.5   
+#> [37] Rdpack_2.6.6      digest_0.6.39     grid_4.6.0        nlme_3.1-169     
+#> [41] lifecycle_1.0.5   reformulas_0.4.4  vctrs_0.7.3       evaluate_1.0.5   
+#> [45] glue_1.8.1        codetools_0.2-20  ragg_1.5.2        rmarkdown_2.31   
+#> [49] purrr_1.2.2       tools_4.6.0       pkgconfig_2.0.3   htmltools_0.5.9
 ```
