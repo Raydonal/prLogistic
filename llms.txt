@@ -1,0 +1,187 @@
+# prLogistic ![](reference/figures/logo.png)
+
+**prLogistic** estimates adjusted **prevalence ratios (PR)** and their
+confidence intervals from logistic regression models, addressing the
+well-known limitation of odds ratios (OR) as approximations to PR in
+cross-sectional and other studies with common binary outcomes.
+
+## Why PR instead of OR?
+
+When the outcome is common (prevalence \> 10%), the OR from logistic
+regression **overestimates** the PR. For example, with a 30% baseline
+prevalence and an OR = 2.5, the true PR is closer to 1.8. **prLogistic**
+corrects this using conditional or marginal standardisation directly on
+the logistic model.
+
+## Supported data structures
+
+| Function | Model | Use case |
+|----|----|----|
+| [`prLogisticDelta()`](https://raydonal.github.io/prLogistic/reference/prLogisticDelta.md) | `glm` | Independent observations |
+| [`prLogisticDelta()`](https://raydonal.github.io/prLogistic/reference/prLogisticDelta.md) | `glmerMod` | Clustered / multilevel data |
+| [`prLogisticGEE()`](https://raydonal.github.io/prLogistic/reference/prLogisticGEE.md) | `geeglm` | Longitudinal data (GEE) |
+| [`prLogisticSurvey()`](https://raydonal.github.io/prLogistic/reference/prLogisticSurvey.md) | `svyglm` | Complex survey designs |
+
+## Installation
+
+``` r
+
+# Stable release from CRAN
+install.packages("prLogistic")
+
+# Development version from GitHub
+# install.packages("remotes")
+remotes::install_github("Raydonal/prLogistic")
+```
+
+## Quick start
+
+``` r
+
+library(prLogistic)
+
+# Fit a standard logistic model
+data(birthwt, package = "MASS")
+birthwt$smoke <- factor(birthwt$smoke)
+birthwt$race  <- factor(birthwt$race)
+
+fit <- glm(low ~ smoke + race + age + lwt,
+           family = binomial, data = birthwt)
+
+# --- Delta method --------------------------------------------------------
+
+# Conditional PR (default: continuous covariates at median)
+prLogisticDelta(fit, standardisation = "conditional")
+
+# Marginal PR (population-averaged)
+prLogisticDelta(fit, standardisation = "marginal")
+
+# Custom reference: age = 25, lwt = 55 kg
+prLogisticDelta(fit,
+                standardisation = "conditional",
+                ref_values = list(age = 25, lwt = 55))
+
+# --- Bootstrap CIs -------------------------------------------------------
+set.seed(42)
+prLogisticBootCond(fit, data = birthwt, R = 999)
+
+# --- Forest plot ---------------------------------------------------------
+res <- prLogisticDelta(fit)
+plot(res)
+```
+
+## Longitudinal data (GEE)
+
+``` r
+
+library(geepack)
+data(ohio, package = "geepack")
+
+fit_gee <- geeglm(resp ~ smoke + age,
+                  family = binomial, id = id,
+                  corstr = "exchangeable", data = ohio)
+
+prLogisticGEE(fit_gee)
+```
+
+## Complex survey data
+
+``` r
+
+library(survey)
+data(api, package = "survey")
+dclus2 <- svydesign(id = ~dnum + snum, fpc = ~fpc1 + fpc2, data = apiclus2)
+fit_svy <- svyglm(sch.wide ~ meals + stype,
+                  design = dclus2, family = quasibinomial)
+
+prLogisticSurvey(fit_svy)
+```
+
+## Citation
+
+If you use **prLogistic** in your research, please cite:
+
+> Amorim, L. D. & Ospina, R. (2021). Prevalence ratio estimation using
+> R. *Anais da Academia Brasileira de Ciências*, **93**(4), e20190316.
+> <https://doi.org/10.1590/0001-3765202120190316>
+
+``` bibtex
+@article{Amorim2021,
+  author  = {Amorim, Leila D. and Ospina, Raydonal},
+  title   = {Prevalence ratio estimation using {R}},
+  journal = {Anais da Academia Brasileira de Ci\^{e}ncias},
+  year    = {2021},
+  volume  = {93},
+  number  = {4},
+  pages   = {e20190316},
+  doi     = {10.1590/0001-3765202120190316}
+}
+```
+
+## License
+
+GPL (≥ 2) — see
+[LICENSE](https://raydonal.github.io/prLogistic/LICENSE).
+
+# Package index
+
+## Main functions
+
+Estimate prevalence ratios and confidence intervals
+
+- [`prLogisticDelta()`](https://raydonal.github.io/prLogistic/reference/prLogisticDelta.md)
+  : Estimate Prevalence Ratios via Logistic Regression – Delta Method
+- [`prLogisticBootCond()`](https://raydonal.github.io/prLogistic/reference/prLogisticBootCond.md)
+  : Bootstrap CI for Prevalence Ratios – Conditional Standardisation
+- [`prLogisticBootMarg()`](https://raydonal.github.io/prLogistic/reference/prLogisticBootMarg.md)
+  : Bootstrap CI for Prevalence Ratios – Marginal Standardisation
+
+## Specialised wrappers
+
+Wrappers for longitudinal and survey data
+
+- [`prLogisticGEE()`](https://raydonal.github.io/prLogistic/reference/prLogisticGEE.md)
+  : Prevalence Ratios for Longitudinal Data – GEE Models
+- [`prLogisticSurvey()`](https://raydonal.github.io/prLogistic/reference/prLogisticSurvey.md)
+  : Prevalence Ratios for Complex Survey Data
+
+## S3 methods
+
+Methods for `prLogistic` objects
+
+- [`print(`*`<prLogistic>`*`)`](https://raydonal.github.io/prLogistic/reference/print.prLogistic.md)
+  : Print a prLogistic object
+- [`summary(`*`<prLogistic>`*`)`](https://raydonal.github.io/prLogistic/reference/summary.prLogistic.md)
+  : Summarise a prLogistic object
+- [`coef(`*`<prLogistic>`*`)`](https://raydonal.github.io/prLogistic/reference/coef.prLogistic.md)
+  : Extract prevalence ratio point estimates
+- [`confint(`*`<prLogistic>`*`)`](https://raydonal.github.io/prLogistic/reference/confint.prLogistic.md)
+  : Extract confidence intervals for prevalence ratios
+- [`plot(`*`<prLogistic>`*`)`](https://raydonal.github.io/prLogistic/reference/plot.prLogistic.md)
+  : Forest plot of prevalence ratios
+
+## Datasets
+
+Example datasets used in the documentation and vignettes
+
+- [`LBW`](https://raydonal.github.io/prLogistic/reference/LBW.md) : Low
+  Birth Weight – Longitudinal Study (Salvador, Brazil)
+- [`Thailand`](https://raydonal.github.io/prLogistic/reference/Thailand.md)
+  : Thailand Education Study – Clustered Binary Data
+- [`Toenail`](https://raydonal.github.io/prLogistic/reference/Toenail.md)
+  : Toenail Infection Trial – Longitudinal Binary Outcome
+- [`UIS`](https://raydonal.github.io/prLogistic/reference/UIS.md) : UIS
+  Drug Treatment Study
+- [`downer`](https://raydonal.github.io/prLogistic/reference/downer.md)
+  : Downer Cow Survival Data
+- [`titanic`](https://raydonal.github.io/prLogistic/reference/titanic.md)
+  : Titanic Passenger Survival
+
+# Articles
+
+### All vignettes
+
+- [Reproducing the Examples from Amorim & Ospina
+  (2021)](https://raydonal.github.io/prLogistic/articles/article-examples.md):
+- [Estimating Prevalence Ratios with
+  prLogistic](https://raydonal.github.io/prLogistic/articles/prLogistic-intro.md):
