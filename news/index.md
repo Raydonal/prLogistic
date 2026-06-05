@@ -1,7 +1,5 @@
 # Changelog
 
-## prLogistic (development version)
-
 ## prLogistic 2.0.0 (2025-06-04)
 
 ### Breaking changes
