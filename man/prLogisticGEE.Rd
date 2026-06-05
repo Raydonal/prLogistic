@@ -74,8 +74,8 @@ fit_gee <- geeglm(
 # Marginal PR (recommended for GEE)
 prLogisticGEE(fit_gee)
 
-# With bootstrap CIs
-prLogisticGEE(fit_gee, method = "bootstrap", data = ohio, R = 99)
+# With bootstrap CIs (small R for a fast example; use R >= 999 in practice)
+prLogisticGEE(fit_gee, method = "bootstrap", data = ohio, R = 25)
 \dontshow{\}) # examplesIf}
 }
 \references{
