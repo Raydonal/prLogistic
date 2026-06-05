@@ -141,8 +141,10 @@ prLogisticGEE(fit_gee)
 #> age     0.9070 0.8410 0.9782
 #> 
 
-# With bootstrap CIs
-prLogisticGEE(fit_gee, method = "bootstrap", data = ohio, R = 99)
+# With bootstrap CIs (small R for a fast example; use R >= 999 in practice)
+prLogisticGEE(fit_gee, method = "bootstrap", data = ohio, R = 25)
+#> Warning: extreme order statistics used as endpoints
+#> Warning: extreme order statistics used as endpoints
 #> 
 #> Prevalence Ratio Estimation via Logistic Regression
 #> ----------------------------------------------------
@@ -154,7 +156,7 @@ prLogisticGEE(fit_gee, method = "bootstrap", data = ohio, R = 99)
 #> 
 #>                   Estimate    Normal CI    Percentile CI 
 #>       Estimate Normal.2.5% Normal.97.5% Pct.2.5% Pct.97.5%
-#> smoke   1.2499      0.9904       1.4802   0.9984    1.4767
-#> age     0.9070      0.8461       0.9831   0.8267    0.9641
+#> smoke   1.2499      0.9657       1.4458   1.0794    1.5240
+#> age     0.9070      0.8043       1.0188   0.8258    1.0302
 #> 
 ```

@@ -13,14 +13,14 @@
 Source:
 [`inst/CITATION`](https://github.com/Raydonal/prLogistic/blob/main/inst/CITATION)
 
-Ospina R, Amorim L (2025). *prLogistic: Estimation of Prevalence Ratios
+Ospina R, Amorim L (2026). *prLogistic: Estimation of Prevalence Ratios
 via Logistic Regression Models*. R package version 2.0.0,
 <https://github.com/Raydonal/prLogistic>.
 
     @Manual{,
       title = {{prLogistic}: Estimation of Prevalence Ratios via Logistic Regression Models},
       author = {Raydonal Ospina and Leila D. Amorim},
-      year = {2025},
+      year = {2026},
       note = {R package version 2.0.0},
       url = {https://github.com/Raydonal/prLogistic},
     }

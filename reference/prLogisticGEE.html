@@ -170,8 +170,10 @@ generalised estimating equations. <em>Journal of Statistical Software</em>,
 <span class="r-out co"><span class="r-pr">#&gt;</span> age     0.9070 0.8410 0.9782</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># With bootstrap CIs</span></span></span>
-<span class="r-in"><span><span class="fu">prLogisticGEE</span><span class="op">(</span><span class="va">fit_gee</span>, method <span class="op">=</span> <span class="st">"bootstrap"</span>, data <span class="op">=</span> <span class="va">ohio</span>, R <span class="op">=</span> <span class="fl">99</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># With bootstrap CIs (small R for a fast example; use R &gt;= 999 in practice)</span></span></span>
+<span class="r-in"><span><span class="fu">prLogisticGEE</span><span class="op">(</span><span class="va">fit_gee</span>, method <span class="op">=</span> <span class="st">"bootstrap"</span>, data <span class="op">=</span> <span class="va">ohio</span>, R <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extreme order statistics used as endpoints</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extreme order statistics used as endpoints</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prevalence Ratio Estimation via Logistic Regression</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
@@ -183,8 +185,8 @@ generalised estimating equations. <em>Journal of Statistical Software</em>,
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   Estimate    Normal CI    Percentile CI </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Estimate Normal.2.5% Normal.97.5% Pct.2.5% Pct.97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> smoke   1.2499      0.9904       1.4802   0.9984    1.4767</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age     0.9070      0.8461       0.9831   0.8267    0.9641</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> smoke   1.2499      0.9657       1.4458   1.0794    1.5240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age     0.9070      0.8043       1.0188   0.8258    1.0302</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
