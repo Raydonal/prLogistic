@@ -119,6 +119,6 @@ If you use **prLogistic** in your research, please cite:
 }
 ```
 
-## License
 
-GPL (≥ 2) — see [LICENSE](LICENSE).
+## License
+GPL (≥ 2). See the [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) for details.
