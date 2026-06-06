@@ -1,3 +1,13 @@
+## Resubmission
+
+This is a resubmission. In response to CRAN feedback (Uwe Ligges), I have:
+
+* Single-quoted software/package names ('lme4', 'geepack', 'survey') and
+  written function names with parentheses (glm(), glmer(), geeglm(),
+  svyglm()) in the Description field of DESCRIPTION.
+* Removed the broken file link to LICENSE from README.md. The package uses
+  the standard "GPL (>= 2)" license, so no LICENSE file is shipped.
+  
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note

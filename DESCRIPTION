@@ -1,8 +1,8 @@
 Package: prLogistic
 Type: Package
 Title: Estimation of Prevalence Ratios via Logistic Regression Models
-Version: 2.0.0
-Date: 2026-06-05
+Version: 2.0.1
+Date: 2026-06-06
 Authors@R: c(
     person("Raydonal", "Ospina",
            email  = "raydonal@de.ufpe.br",
@@ -16,10 +16,10 @@ Authors@R: c(
 Description: Estimates adjusted prevalence ratios (PR) and their confidence
     intervals from logistic regression models, addressing the well-known
     limitation of odds ratios (OR) as approximations to PR in cross-sectional
-    studies with common outcomes. Supports independent observations (glm),
-    clustered/multilevel data (glmer from lme4), longitudinal data via
-    Generalised Estimating Equations (geeglm from geepack), and complex
-    survey designs (svyglm from survey). Inference is available via the
+    studies with common outcomes. Supports independent observations (glm()),
+    clustered/multilevel data (glmer() from 'lme4'), longitudinal data via
+    Generalised Estimating Equations (geeglm() from 'geepack'), and complex
+    survey designs (svyglm() from 'survey'). Inference is available via the 
     delta method (conditional and marginal standardisation) and via
     bootstrap (normal-approximation and percentile intervals).
     Continuous covariates are handled through user-specified or
