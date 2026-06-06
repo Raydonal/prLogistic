@@ -129,7 +129,7 @@ prLogisticDelta(fit_lbw_ml, standardisation = "marginal")
 #> ----------------------------------------------------
 #> 
 #>           Estimate   2.5%   97.5%
-#> smoke_bin   8.2292 1.4402 47.0204
+#> smoke_bin   8.2292 1.4402 47.0203
 #> race_bin    0.2303 0.0309  1.7158
 #> age         3.2625 0.9103 11.6931
 ```
