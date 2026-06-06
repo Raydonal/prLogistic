@@ -1,6 +1,13 @@
 # Changelog
 
-## prLogistic 2.0.0 (2025-06-04)
+## prLogistic 2.0.1 (2026-06-06)
+
+- CRAN resubmission. Single-quoted software names and added parentheses
+  to function names in the DESCRIPTION, and removed a broken LICENSE
+  link from the README, following CRAN feedback. No changes to
+  functionality.
+
+## prLogistic 2.0.0 (2025-06-05)
 
 ### Breaking changes
 

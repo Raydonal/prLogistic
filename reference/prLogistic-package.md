@@ -3,10 +3,10 @@
 Estimates adjusted prevalence ratios (PR) and their confidence intervals
 from logistic regression models, addressing the well-known limitation of
 odds ratios (OR) as approximations to PR in cross-sectional studies with
-common outcomes. Supports independent observations (glm),
-clustered/multilevel data (glmer from lme4), longitudinal data via
-Generalised Estimating Equations (geeglm from geepack), and complex
-survey designs (svyglm from survey). Inference is available via the
+common outcomes. Supports independent observations (glm()),
+clustered/multilevel data (glmer() from 'lme4'), longitudinal data via
+Generalised Estimating Equations (geeglm() from 'geepack'), and complex
+survey designs (svyglm() from 'survey'). Inference is available via the
 delta method (conditional and marginal standardisation) and via
 bootstrap (normal-approximation and percentile intervals). Continuous
 covariates are handled through user-specified or median-based reference

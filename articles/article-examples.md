@@ -129,7 +129,7 @@ prLogisticDelta(fit_lbw_ml, standardisation = "marginal")
 #> ----------------------------------------------------
 #> 
 #>           Estimate   2.5%   97.5%
-#> smoke_bin   8.2292 1.4402 47.0203
+#> smoke_bin   8.2292 1.4402 47.0204
 #> race_bin    0.2303 0.0309  1.7158
 #> age         3.2625 0.9103 11.6931
 ```
@@ -601,7 +601,7 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] lme4_2.0-1       Matrix_1.7-5     geepack_1.3.13   prLogistic_2.0.0
+#> [1] lme4_2.0-1       Matrix_1.7-5     geepack_1.3.13   prLogistic_2.0.1
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] jsonlite_2.0.0    dplyr_1.2.1       compiler_4.6.0    Rcpp_1.1.1-1.1   

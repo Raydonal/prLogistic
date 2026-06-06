@@ -470,7 +470,7 @@ sessionInfo()
 #> 
 #> other attached packages:
 #> [1] survey_4.5       survival_3.8-6   geepack_1.3.13   lme4_2.0-1      
-#> [5] Matrix_1.7-5     prLogistic_2.0.0
+#> [5] Matrix_1.7-5     prLogistic_2.0.1
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] sass_0.4.10       generics_0.1.4    tidyr_1.3.2       lattice_0.22-9   
