@@ -40,7 +40,7 @@
 #' table(LBW$low, LBW$smoke)
 #'
 #' # GEE model accounting for within-mother correlation
-#' \dontrun{
+#' \donttest{
 #' library(geepack)
 #' fit_gee <- geeglm(as.integer(low == "Low") ~ smoke + race + age,
 #'                   family = binomial, id = ID,
@@ -82,7 +82,7 @@
 #' prop.table(table(Thailand$rgi))
 #'
 #' # Mixed model (random intercept per school)
-#' \dontrun{
+#' \donttest{
 #' library(lme4)
 #' fit_ml <- glmer(as.integer(rgi == "Yes") ~ sex + pped + (1 | schoolid),
 #'                 family = binomial, data = Thailand)
@@ -123,7 +123,7 @@
 #' data(Toenail)
 #' table(Toenail$Response, Toenail$Treatment)
 #'
-#' \dontrun{
+#' \donttest{
 #' library(geepack)
 #' Toenail$resp_bin <- as.integer(Toenail$Response == "Moderate/severe")
 #' fit_gee <- geeglm(resp_bin ~ Treatment + Month,

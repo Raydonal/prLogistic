@@ -39,7 +39,7 @@ data(Thailand)
 prop.table(table(Thailand$rgi))
 
 # Mixed model (random intercept per school)
-\dontrun{
+\donttest{
 library(lme4)
 fit_ml <- glmer(as.integer(rgi == "Yes") ~ sex + pped + (1 | schoolid),
                 family = binomial, data = Thailand)

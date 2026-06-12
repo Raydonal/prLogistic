@@ -112,7 +112,7 @@
 #'                 standardisation = "conditional",
 #'                 ref_values = list(parity = 2))
 #'
-#' \dontrun{
+#' \donttest{
 #' # --- Clustered data (glmer) ---------------------------------------------
 #' library(lme4)
 #' fit_glmer <- glmer(case ~ induced + spontaneous + (1 | stratum),

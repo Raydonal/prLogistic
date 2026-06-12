@@ -39,7 +39,7 @@ correlation is commonly used.
 data(Toenail)
 table(Toenail$Response, Toenail$Treatment)
 
-\dontrun{
+\donttest{
 library(geepack)
 Toenail$resp_bin <- as.integer(Toenail$Response == "Moderate/severe")
 fit_gee <- geeglm(resp_bin ~ Treatment + Month,

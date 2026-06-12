@@ -1,38 +1,33 @@
 ## Resubmission
 
-This is a resubmission. In response to CRAN feedback (Uwe Ligges), I have:
+This is a resubmission. In response to CRAN feedback (Benjamin Altmann), I have:
 
-* Single-quoted software/package names ('lme4', 'geepack', 'survey') and
-  written function names with parentheses (glm(), glmer(), geeglm(),
-  svyglm()) in the Description field of DESCRIPTION.
-* Removed the broken file link to LICENSE from README.md. The package uses
-  the standard "GPL (>= 2)" license, so no LICENSE file is shipped.
-  
+* Added \value tags to the .Rd files of the exported methods print(),
+  summary() and plot(), documenting the returned object (its class and
+  structure) and the side effect of each method.
+* Replaced \dontrun{} with \donttest{} in the examples.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
 * This is a resubmission of a previously archived package. 'prLogistic'
-  was archived on 2022-06-14 because earlier check problems (undefined
-  'stats' functions in the NAMESPACE) were not corrected in time. Those
-  problems have been fixed in this version, which is also a major rewrite
-  (version 2.0.0). I am the original maintainer (Raydonal Ospina,
+  was archived on 2022-06-14; the earlier check problems were fixed in the
+  2.0 rewrite. I am the original maintainer (Raydonal Ospina,
   raydonal@de.ufpe.br).
 
 ## Notes
 
-* "New submission / Package was archived on CRAN" -- expected, as this
-  is a resubmission of the archived package.
-
-* "Possibly misspelled words in DESCRIPTION": Amorim and Ospina are
-  author surnames; geeglm, geepack, glm, glmer, lme and svyglm are
-  function/package names. All are spelled correctly.
+* "New submission / Package was archived on CRAN" -- expected, as this is a
+  resubmission of the archived package.
+* "Possibly misspelled words in DESCRIPTION": Amorim and Ospina are author
+  surnames; geeglm, geepack, glm, glmer, lme and svyglm are function/package
+  names. All are spelled correctly.
 
 ## Test environments
 
-* local: Ubuntu 22.04, R 4.5.2
+* local: Ubuntu, R 4.6.0
 * win-builder: R-devel
-* R-hub v2: linux, windows, macos (m1)
 
 ## Downstream dependencies
 

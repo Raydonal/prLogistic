@@ -44,7 +44,7 @@ data(LBW)
 table(LBW$low, LBW$smoke)
 
 # GEE model accounting for within-mother correlation
-\dontrun{
+\donttest{
 library(geepack)
 fit_gee <- geeglm(as.integer(low == "Low") ~ smoke + race + age,
                   family = binomial, id = ID,

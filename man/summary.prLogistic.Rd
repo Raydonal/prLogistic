@@ -11,6 +11,10 @@
 
 \item{...}{Currently ignored.}
 }
+\value{
+Invisibly returns the \code{prLogistic} object. Called for its side
+effect of printing the model call followed by the formatted estimates.
+}
 \description{
 Summarise a prLogistic object
 }

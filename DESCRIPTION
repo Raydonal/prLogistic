@@ -1,8 +1,8 @@
 Package: prLogistic
 Type: Package
 Title: Estimation of Prevalence Ratios via Logistic Regression Models
-Version: 2.0.1
-Date: 2026-06-06
+Version: 2.0.2
+Date: 2026-06-12
 Authors@R: c(
     person("Raydonal", "Ospina",
            email  = "raydonal@de.ufpe.br",

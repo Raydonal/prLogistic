@@ -32,6 +32,10 @@
 
 \item{...}{Further graphical parameters passed to \code{plot()}.}
 }
+\value{
+No return value, called for its side effect of drawing a forest
+plot of the prevalence ratio estimates and their confidence intervals.
+}
 \description{
 Produces a simple forest plot (no external dependencies beyond base R).
 }

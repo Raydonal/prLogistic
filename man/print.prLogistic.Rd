@@ -13,6 +13,11 @@
 
 \item{...}{Currently ignored.}
 }
+\value{
+Invisibly returns the \code{prLogistic} object \code{x}. Called for its
+side effect of printing a formatted summary of the prevalence ratio
+estimates and confidence intervals to the console.
+}
 \description{
 Print a prLogistic object
 }

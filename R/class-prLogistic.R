@@ -31,6 +31,9 @@
 #' @param x A `prLogistic` object.
 #' @param digits Number of significant digits (default 4).
 #' @param ... Currently ignored.
+#' @return Invisibly returns the `prLogistic` object `x`. Called for its
+#'   side effect of printing a formatted summary of the prevalence ratio
+#'   estimates and confidence intervals to the console.
 #' @export
 print.prLogistic <- function(x, digits = 4, ...) {
   conf_pct <- paste0(x$conf * 100, "%")
@@ -66,6 +69,8 @@ print.prLogistic <- function(x, digits = 4, ...) {
 #'
 #' @param object A `prLogistic` object.
 #' @param ... Currently ignored.
+#' @return Invisibly returns the `prLogistic` object. Called for its side
+#'   effect of printing the model call followed by the formatted estimates.
 #' @export
 summary.prLogistic <- function(object, ...) {
   cat("\nCall:\n")
@@ -130,6 +135,8 @@ confint.prLogistic <- function(object, parm, level, type = "percentile", ...) {
 #' @param ref_line Logical: draw a vertical reference line at PR = 1?
 #' @param type   For bootstrap objects: `"normal"` or `"percentile"`.
 #' @param ...    Further graphical parameters passed to `plot()`.
+#' @return No return value, called for its side effect of drawing a forest
+#'   plot of the prevalence ratio estimates and their confidence intervals.
 #' @export
 plot.prLogistic <- function(x, main = NULL, xlab = "Prevalence Ratio",
                              col = "steelblue", ci_col = "steelblue",
