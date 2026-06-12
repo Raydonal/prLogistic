@@ -22,3 +22,9 @@ print(x, digits = 4, ...)
 - ...:
 
   Currently ignored.
+
+## Value
+
+Invisibly returns the `prLogistic` object `x`. Called for its side
+effect of printing a formatted summary of the prevalence ratio estimates
+and confidence intervals to the console.

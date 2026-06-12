@@ -1,5 +1,10 @@
 # Changelog
 
+## prLogistic 2.0.2 (2026-06-12)
+
+- Added documentation to the print(), summary() and plot() methods.
+- Replaced with in examples, following CRAN feedback.
+
 ## prLogistic 2.0.1 (2026-06-06)
 
 - CRAN resubmission. Single-quoted software names and added parentheses

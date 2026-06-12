@@ -52,3 +52,8 @@ plot(
 
   Further graphical parameters passed to
   [`plot()`](https://rdrr.io/r/graphics/plot.default.html).
+
+## Value
+
+No return value, called for its side effect of drawing a forest plot of
+the prevalence ratio estimates and their confidence intervals.

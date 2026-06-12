@@ -55,10 +55,28 @@ prop.table(table(Thailand$rgi))
 #> 0.8549289 0.1450711 
 
 # Mixed model (random intercept per school)
-if (FALSE) { # \dontrun{
+# \donttest{
 library(lme4)
+#> Loading required package: Matrix
 fit_ml <- glmer(as.integer(rgi == "Yes") ~ sex + pped + (1 | schoolid),
                 family = binomial, data = Thailand)
+#> Warning: Model failed to converge with max|grad| = 0.195109 (tol = 0.002, component 1)
+#>   See ?lme4::convergence and ?lme4::troubleshooting.
+#> Warning: Model is nearly unidentifiable: very large eigenvalue
+#>  - Rescale variables?
 prLogisticDelta(fit_ml, standardisation = "marginal")
-} # }
+#> 
+#> Prevalence Ratio Estimation via Logistic Regression
+#> ----------------------------------------------------
+#>   Model        : glmer 
+#>   Method       : delta 
+#>   Standardis.  : marginal 
+#>   Conf. level  : 95% 
+#> ----------------------------------------------------
+#> 
+#>         Estimate   2.5%  97.5%
+#> sexBoy    1.6322 1.6312 1.6333
+#> ppedYes   0.5723 0.5719 0.5727
+#> 
+# }
 ```

@@ -18,3 +18,8 @@ summary(object, ...)
 - ...:
 
   Currently ignored.
+
+## Value
+
+Invisibly returns the `prLogistic` object. Called for its side effect of
+printing the model call followed by the formatted estimates.

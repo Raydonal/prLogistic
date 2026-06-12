@@ -601,7 +601,7 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] lme4_2.0-1       Matrix_1.7-5     geepack_1.3.13   prLogistic_2.0.1
+#> [1] lme4_2.0-1       Matrix_1.7-5     geepack_1.3.13   prLogistic_2.0.2
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] jsonlite_2.0.0    dplyr_1.2.1       compiler_4.6.0    Rcpp_1.1.1-1.1   

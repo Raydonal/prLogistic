@@ -66,11 +66,25 @@ table(LBW$low, LBW$smoke)
 #>   Low     70  81
 
 # GEE model accounting for within-mother correlation
-if (FALSE) { # \dontrun{
+# \donttest{
 library(geepack)
 fit_gee <- geeglm(as.integer(low == "Low") ~ smoke + race + age,
                   family = binomial, id = ID,
                   corstr = "exchangeable", data = LBW)
 prLogisticGEE(fit_gee)
-} # }
+#> 
+#> Prevalence Ratio Estimation via Logistic Regression
+#> ----------------------------------------------------
+#>   Model        : geeglm 
+#>   Method       : delta 
+#>   Standardis.  : marginal 
+#>   Conf. level  : 95% 
+#> ----------------------------------------------------
+#> 
+#>               Estimate   2.5%  97.5%
+#> smokeYes        1.5927 1.1019 2.3021
+#> raceNon-white   0.6382 0.3424 1.1898
+#> age             1.4748 1.0557 2.0604
+#> 
+# }
 ```

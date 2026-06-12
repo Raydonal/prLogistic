@@ -15,7 +15,7 @@ Ospina (2021)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">prLogistic</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,13 +107,27 @@ with a random intercept (<code>glmer</code>) or via GEE (<code>geeglm</code>).</
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Low     70  81</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># GEE model accounting for within-mother correlation</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">geepack</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit_gee</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geepack/man/geeglm.html" class="external-link">geeglm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">low</span> <span class="op">==</span> <span class="st">"Low"</span><span class="op">)</span> <span class="op">~</span> <span class="va">smoke</span> <span class="op">+</span> <span class="va">race</span> <span class="op">+</span> <span class="va">age</span>,</span></span>
 <span class="r-in"><span>                  family <span class="op">=</span> <span class="va">binomial</span>, id <span class="op">=</span> <span class="va">ID</span>,</span></span>
 <span class="r-in"><span>                  corstr <span class="op">=</span> <span class="st">"exchangeable"</span>, data <span class="op">=</span> <span class="va">LBW</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="prLogisticGEE.html">prLogisticGEE</a></span><span class="op">(</span><span class="va">fit_gee</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Prevalence Ratio Estimation via Logistic Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Model        : geeglm </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Method       : delta </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Standardis.  : marginal </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Conf. level  : 95% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate   2.5%  97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> smokeYes        1.5927 1.1019 2.3021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> raceNon-white   0.6382 0.3424 1.1898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age             1.4748 1.0557 2.0604</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

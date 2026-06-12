@@ -201,12 +201,26 @@ prLogisticDelta(fit_glm,
 #> parity        0.5941 0.4497 0.7850
 #> 
 
-if (FALSE) { # \dontrun{
+# \donttest{
 # --- Clustered data (glmer) ---------------------------------------------
 library(lme4)
 fit_glmer <- glmer(case ~ induced + spontaneous + (1 | stratum),
                    family = binomial, data = infert)
+#> boundary (singular) fit: see help('isSingular')
 prLogisticDelta(fit_glmer, standardisation = "marginal")
+#> 
+#> Prevalence Ratio Estimation via Logistic Regression
+#> ----------------------------------------------------
+#>   Model        : glmer 
+#>   Method       : delta 
+#>   Standardis.  : marginal 
+#>   Conf. level  : 95% 
+#> ----------------------------------------------------
+#> 
+#>             Estimate   2.5%  97.5%
+#> induced       1.2649 0.9614 1.6644
+#> spontaneous   2.2624 1.6580 3.0871
+#> 
 
 # --- Longitudinal / GEE -------------------------------------------------
 library(geepack)
@@ -217,13 +231,47 @@ fit_gee <- geeglm(resp ~ smoke + age,
                   corstr  = "exchangeable",
                   data    = ohio)
 prLogisticDelta(fit_gee, standardisation = "marginal")
+#> 
+#> Prevalence Ratio Estimation via Logistic Regression
+#> ----------------------------------------------------
+#>   Model        : geeglm 
+#>   Method       : delta 
+#>   Standardis.  : marginal 
+#>   Conf. level  : 95% 
+#> ----------------------------------------------------
+#> 
+#>       Estimate   2.5%  97.5%
+#> smoke   1.2499 0.9332 1.6742
+#> age     0.9070 0.8410 0.9782
+#> 
 
 # --- Complex survey design ----------------------------------------------
 library(survey)
+#> Loading required package: grid
+#> Loading required package: survival
+#> 
+#> Attaching package: ‘survey’
+#> The following object is masked from ‘package:graphics’:
+#> 
+#>     dotchart
 data(api, package = "survey")
 dclus2 <- svydesign(id = ~dnum + snum, fpc = ~fpc1 + fpc2, data = apiclus2)
 fit_svy <- svyglm(sch.wide ~ meals + stype,
                   design = dclus2, family = quasibinomial)
 prLogisticDelta(fit_svy, standardisation = "conditional")
-} # }
+#> 
+#> Prevalence Ratio Estimation via Logistic Regression
+#> ----------------------------------------------------
+#>   Model        : svyglm 
+#>   Method       : delta 
+#>   Standardis.  : conditional 
+#>   Conf. level  : 95% 
+#> ----------------------------------------------------
+#> 
+#>        Estimate   2.5%  97.5%
+#> meals    0.9996 0.9989 1.0003
+#> stypeH   0.1491 0.0505 0.4403
+#> stypeM   0.6616 0.4246 1.0310
+#> 
+# }
 ```

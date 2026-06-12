@@ -59,12 +59,25 @@ table(Toenail$Response, Toenail$Treatment)
 #>   Not moderate/severe          723         777
 #>   Moderate/severe              214         194
 
-if (FALSE) { # \dontrun{
+# \donttest{
 library(geepack)
 Toenail$resp_bin <- as.integer(Toenail$Response == "Moderate/severe")
 fit_gee <- geeglm(resp_bin ~ Treatment + Month,
                   family = binomial, id = ID,
                   corstr = "exchangeable", data = Toenail)
 prLogisticGEE(fit_gee)
-} # }
+#> 
+#> Prevalence Ratio Estimation via Logistic Regression
+#> ----------------------------------------------------
+#>   Model        : geeglm 
+#>   Method       : delta 
+#>   Standardis.  : marginal 
+#>   Conf. level  : 95% 
+#> ----------------------------------------------------
+#> 
+#>                      Estimate   2.5%  97.5%
+#> TreatmentTerbinafine   1.0299 0.6949 1.5264
+#> Month                  0.8723 0.8458 0.8996
+#> 
+# }
 ```

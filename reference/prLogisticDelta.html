@@ -13,7 +13,7 @@ data."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">prLogistic</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -239,12 +239,26 @@ adjustment and regression adjustment of epidemiologic measures.
 <span class="r-out co"><span class="r-pr">#&gt;</span> parity        0.5941 0.4497 0.7850</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># --- Clustered data (glmer) ---------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit_glmer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/glmer.html" class="external-link">glmer</a></span><span class="op">(</span><span class="va">case</span> <span class="op">~</span> <span class="va">induced</span> <span class="op">+</span> <span class="va">spontaneous</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">stratum</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                   family <span class="op">=</span> <span class="va">binomial</span>, data <span class="op">=</span> <span class="va">infert</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> boundary (singular) fit: see help('isSingular')</span>
 <span class="r-in"><span><span class="fu">prLogisticDelta</span><span class="op">(</span><span class="va">fit_glmer</span>, standardisation <span class="op">=</span> <span class="st">"marginal"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Prevalence Ratio Estimation via Logistic Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Model        : glmer </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Method       : delta </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Standardis.  : marginal </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Conf. level  : 95% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate   2.5%  97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> induced       1.2649 0.9614 1.6644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> spontaneous   2.2624 1.6580 3.0871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># --- Longitudinal / GEE -------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">geepack</span><span class="op">)</span></span></span>
@@ -255,15 +269,49 @@ adjustment and regression adjustment of epidemiologic measures.
 <span class="r-in"><span>                  corstr  <span class="op">=</span> <span class="st">"exchangeable"</span>,</span></span>
 <span class="r-in"><span>                  data    <span class="op">=</span> <span class="va">ohio</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">prLogisticDelta</span><span class="op">(</span><span class="va">fit_gee</span>, standardisation <span class="op">=</span> <span class="st">"marginal"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Prevalence Ratio Estimation via Logistic Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Model        : geeglm </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Method       : delta </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Standardis.  : marginal </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Conf. level  : 95% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Estimate   2.5%  97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> smoke   1.2499 0.9332 1.6742</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age     0.9070 0.8410 0.9782</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># --- Complex survey design ----------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://r-survey.r-forge.r-project.org/survey/" class="external-link">survey</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: grid</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: survival</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘survey’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:graphics’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     dotchart</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">api</span>, package <span class="op">=</span> <span class="st">"survey"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dclus2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survey/man/svydesign.html" class="external-link">svydesign</a></span><span class="op">(</span>id <span class="op">=</span> <span class="op">~</span><span class="va">dnum</span> <span class="op">+</span> <span class="va">snum</span>, fpc <span class="op">=</span> <span class="op">~</span><span class="va">fpc1</span> <span class="op">+</span> <span class="va">fpc2</span>, data <span class="op">=</span> <span class="va">apiclus2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit_svy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survey/man/svyglm.html" class="external-link">svyglm</a></span><span class="op">(</span><span class="va">sch.wide</span> <span class="op">~</span> <span class="va">meals</span> <span class="op">+</span> <span class="va">stype</span>,</span></span>
 <span class="r-in"><span>                  design <span class="op">=</span> <span class="va">dclus2</span>, family <span class="op">=</span> <span class="va">quasibinomial</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">prLogisticDelta</span><span class="op">(</span><span class="va">fit_svy</span>, standardisation <span class="op">=</span> <span class="st">"conditional"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Prevalence Ratio Estimation via Logistic Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Model        : svyglm </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Method       : delta </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Standardis.  : conditional </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Conf. level  : 95% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        Estimate   2.5%  97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> meals    0.9996 0.9989 1.0003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> stypeH   0.1491 0.0505 0.4403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> stypeM   0.6616 0.4246 1.0310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

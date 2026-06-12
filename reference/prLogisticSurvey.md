@@ -81,14 +81,6 @@ Amorim, L. D. & Ospina, R. (2021). *An Acad Bras Cienc*, **93**(4).
 
 ``` r
 library(survey)
-#> Loading required package: grid
-#> Loading required package: Matrix
-#> Loading required package: survival
-#> 
-#> Attaching package: ‘survey’
-#> The following object is masked from ‘package:graphics’:
-#> 
-#>     dotchart
 data(api, package = "survey")
 
 # Create binary outcome
