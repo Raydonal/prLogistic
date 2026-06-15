@@ -118,9 +118,11 @@ If you use **prLogistic** in your research, please cite:
   doi     = {10.1590/0001-3765202120190316}
 }
 ```
-## Technical Documentation
 
-- [Technical Note (PDF)](https://github.com/Raydonal/prLogistic/public_pdfs/Technical_Report.pdf)
+## Technical Documentation
+- [Technical Note (PDF)](https://github.com/Raydonal/prLogistic/raw/main/Technical_Report.pdf)
+
+
 
 ## License
 GPL (≥ 2). See the [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) for details.
