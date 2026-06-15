@@ -24,7 +24,7 @@ home:
 
 navbar:
   structure:
-    left:  [intro, reference, articles, changelog]
+    left:  [intro, reference, articles, technical_note, changelog]
     right: [search, github]
 
   components:
