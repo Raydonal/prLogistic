@@ -41,7 +41,7 @@ navbar:
           href: articles/prLogistic-intro.html
     technical_note:
       text: "Technical Note"
-      href: "../inst/pdf/Technical_Report.pdf"          
+      href: "Technical_Report.pdf"          
     changelog:
       text: "Changelog"
       href: news/index.html
