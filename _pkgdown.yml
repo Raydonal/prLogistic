@@ -39,6 +39,9 @@ navbar:
       menu:
         - text: "Introduction & worked examples"
           href: articles/prLogistic-intro.html
+    technical_note:
+      text: "Technical Note"
+      href: "../inst/pdf/prLogistic_v2_Technical_Report.pdf"          
     changelog:
       text: "Changelog"
       href: news/index.html
