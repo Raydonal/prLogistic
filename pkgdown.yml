@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   article-examples: article-examples.html
   prLogistic-intro: prLogistic-intro.html
-last_built: 2026-06-15T21:37Z
+last_built: 2026-06-15T21:47Z
 urls:
   reference: https://raydonal.github.io/prLogistic/reference
   article: https://raydonal.github.io/prLogistic/articles
