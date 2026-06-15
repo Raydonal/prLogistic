@@ -24,7 +24,7 @@ home:
 
 navbar:
   structure:
-    left:  [intro, reference, articles, technical_note, changelog]
+    left:  [intro, reference, articles,  changelog]
     right: [search, github]
 
   components:
@@ -39,9 +39,6 @@ navbar:
       menu:
         - text: "Introduction & worked examples"
           href: articles/prLogistic-intro.html
-    technical_note:
-      text: "Technical Note"
-      href: "../public_pdfs/Technical_Report.pdf"          
     changelog:
       text: "Changelog"
       href: news/index.html
